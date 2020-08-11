@@ -1,5 +1,6 @@
 import ctypes as __ctypes
-__uspeech = __ctypes.cdll.UniversalSpeech
+# __uspeech = __ctypes.cdll.UniversalSpeech
+__uspeech=__ctypes.cdll.LoadLibrary("UniversalSpeech.dll")
 VOLUME, VOLUME_MAX, VOLUME_MIN, VOLUME_SUPPORTED, \
 RATE, RATE_MAX, RATE_MIN, RATE_SUPPORTED, \
 PITCH, PITCH_MAX, PITCH_MIN, PITCH_SUPPORTED, \
