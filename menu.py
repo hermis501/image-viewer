@@ -16,6 +16,8 @@ class Menu():
 		parent.Bind (wx.EVT_MENU, parent.onDescription, self.descriptionMenu)
 		self.descriptionCopyMenu = menu_commands.Append(-1, "Copy image description\tF5", "Copy image description")
 		parent.Bind (wx.EVT_MENU, parent.onDescriptionCopy, self.descriptionCopyMenu)
+		self.captureMenu = menu_commands.Append(-1, "Take picture\tSPACE", "Take picture")
+		parent.Bind (wx.EVT_MENU, parent.onCapture, self.captureMenu)
 
 		menu_options = wx.Menu()
 		self.slideshowMenu = menu_options.Append(-1, "Slide show\tCTRL+S", "Slide show", kind=wx.ITEM_CHECK)

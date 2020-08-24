@@ -7,13 +7,15 @@ import glob
 import sys
 import os
 import clipboard
-import winsound
 import _thread as thread
-import subprocess
+import playsound
+import cv2
+webcam = cv2.VideoCapture(0)
 class mainWindow(wx.Frame): 
 	def __init__(self, parent, title, kwg):
 		self.pictures=None
 		self.descriptions=None
+		self.fileName="cap.jpg"
 		self.width, self.height = wx.GetDisplaySize()
 		self.title=title
 		self.parent=parent
@@ -73,7 +75,9 @@ class mainWindow(wx.Frame):
 	def onAbout (self, event):
 		wx.MessageDialog(self, "Image viewer with accessibility features\nCopyright (C) 2020 by Hermis Kasperavičius\nThis program uses cloudVision API from http://visionbot.ru/apiv2 and Universal Speech API from http://github.com/qtnc/UniversalSpeech", "Accessible Image Viewer", wx.OK).ShowModal()
 
-	def onClose (self, event): self.Destroy ()
+	def onClose (self, event):
+		webcam.release()
+		self.Destroy ()
 
 	def show_status (self, text): self.sb.SetStatusText (text)
 
@@ -124,6 +128,14 @@ class mainWindow(wx.Frame):
 	def onSlideshow (self, event):
 		if self.menu.slideshowMenu.IsChecked (): self.timer.Start (3000); unispeech.output ("SlideShow, on")
 		else: self.timer.Stop (); unispeech.output ("SlideShow, off")
+
+	def onCapture (self, event):
+		try:
+			check, frame = webcam.read()
+			cv2.imwrite(filename=self.fileName, img=frame)
+			playsound.playsound ('sounds/cap.wav')
+		except:
+			unispeech.output ("Error: cannot take picture")
 
 if __name__ == '__main__':
 	app = wx.App()
