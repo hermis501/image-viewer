@@ -130,9 +130,14 @@ class mainWindow(wx.Frame):
 		else: self.timer.Stop (); unispeech.output ("SlideShow, off")
 
 	def onCapture (self, event):
+		# not fully implemented; might need an option where to save file and
+		# ability to show after saving.
 		try:
 			check, frame = webcam.read()
-			cv2.imwrite(filename=self.fileName, img=frame)
+			#and the second time; OpenCV don't allow us to create good picture first time
+			check, frame = webcam.read()
+			frame = cv2.cvtColor(frame,cv2.COLOR_BGR2RGB)
+			cv2.imwrite(filename=self.filename, img=frame)
 			playsound.playsound ('sounds/cap.wav')
 		except:
 			unispeech.output ("Error: cannot take picture")
