@@ -1,5 +1,6 @@
 ﻿# -*- coding: utf-8 -*-
 import universal_speech as unispeech
+from datetime import datetime
 import cloudvis
 import wx
 import menu as m
@@ -15,7 +16,7 @@ class mainWindow(wx.Frame):
 	def __init__(self, parent, title, kwg):
 		self.pictures=None
 		self.descriptions=None
-		self.fileName="cap.jpg"
+		self.fileName=""
 		self.width, self.height = wx.GetDisplaySize()
 		self.title=title
 		self.parent=parent
@@ -137,6 +138,9 @@ class mainWindow(wx.Frame):
 			#and the second time; OpenCV don't allow us to create good picture first time
 			check, frame = webcam.read()
 			frame = cv2.cvtColor(frame,cv2.COLOR_BGR2RGB)
+			now = datetime.now()
+			dt_string = now.strftime("%Y-%m-%d-%H-%M-%S")
+			self.fileName="cap"+dt_string+".jpg"
 			cv2.imwrite(filename=self.filename, img=frame)
 			playsound.playsound ('sounds/cap.wav')
 		except:
