@@ -3,6 +3,7 @@ import universal_speech as unispeech
 from datetime import datetime
 import cloudvis
 import wx
+from wx import locale
 import menu as m
 import glob
 import sys
@@ -12,6 +13,7 @@ import _thread as thread
 import playsound
 import cv2
 webcam = cv2.VideoCapture(0)
+
 class mainWindow(wx.Frame): 
 	def __init__(self, parent, title, kwg):
 		self.pictures=None
@@ -148,6 +150,7 @@ class mainWindow(wx.Frame):
 
 if __name__ == '__main__':
 	app = wx.App()
+	localeObj = wx.Locale(wx.LANGUAGE_ENGLISH)
 	if len(sys.argv) > 1:
 		# not implemented yet
 		mainWindow(None, "Image Viewer", sys.argv[1])
