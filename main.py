@@ -6,6 +6,7 @@ import wx
 from wx import locale
 import menu as m
 import glob
+import functions
 import sys
 import os
 import clipboard
