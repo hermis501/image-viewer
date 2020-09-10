@@ -5,7 +5,6 @@ import cloudvis
 import wx
 from wx import locale
 import menu as m
-import glob
 import functions
 import sys
 import os
@@ -50,7 +49,8 @@ class mainWindow(wx.Frame):
 		dlg=wx.DirDialog (self, "Open folder", "", style=wx.DD_DEFAULT_STYLE | wx.DD_DIR_MUST_EXIST)
 		if dlg.ShowModal ()==wx.ID_OK:
 			path=dlg.GetPath ()
-			temppic = glob.glob(path + "\\*.jpg")
+			# temppic = glob.glob(path + "\\*.jpg")
+			temppic = functions.search_photos(path)
 			if not temppic: temppic=None; wx.MessageBox ("There are no pictures in this folder", "Error"); return
 			self.pictures=temppic
 			self.totalPictures=len(self.pictures)
