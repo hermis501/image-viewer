@@ -53,10 +53,10 @@ class mainWindow(wx.Frame):
 			temppic = functions.search_photos(path)
 			if not temppic: temppic=None; wx.MessageBox ("There are no pictures in this folder", "Error"); return
 			self.pictures=temppic
-			self.totalPictures=len(self.pictures)
+			self.totalPictures=self.pictures[0]
 			self.descriptions=None
 			self.descriptions=[None]*self.totalPictures
-			self.currentPicture=0
+			self.currentPicture=1
 			self.loadImage (self.pictures[self.currentPicture])
 
 	def loadImage (self, image):
@@ -93,19 +93,20 @@ class mainWindow(wx.Frame):
 
 	def previousPicture(self):
 		if self.totalPictures==0: return
-		if self.currentPicture == 0:
-			self.currentPicture = self.totalPictures - 1
+		if self.currentPicture == 1:
+			self.currentPicture = self.totalPictures
 		else:
 			self.currentPicture -= 1
 		self.loadImage (self.pictures[self.currentPicture])
 
 	def nextPicture(self):
 		if self.totalPictures==0: return
-		if self.currentPicture == self.totalPictures-1:
-			self.currentPicture = 0
+		if self.currentPicture == self.totalPictures:
+			self.currentPicture = 1
 		else:
 			self.currentPicture += 1
 		self.loadImage (self.pictures[self.currentPicture])
+		print (str(self.totalPictures)+"/"+str(self.currentPicture))
 
 	def onDescription (self, event):
 		thread.start_new_thread(self.getDescription,())
@@ -138,7 +139,7 @@ class mainWindow(wx.Frame):
 		# ability to show after saving.
 		try:
 			check, frame = webcam.read()
-			#and the second time; OpenCV don't allow us to create good picture first time
+			#and the second time; OpenCV don't allow us to take good picture first time
 			check, frame = webcam.read()
 			frame = cv2.cvtColor(frame,cv2.COLOR_BGR2RGB)
 			now = datetime.now()
@@ -151,7 +152,7 @@ class mainWindow(wx.Frame):
 
 if __name__ == '__main__':
 	app = wx.App()
-	localeObj = wx.Locale(wx.LANGUAGE_ENGLISH)
+	localeObj = wx.Locale(wx.LANGUAGE_ENGLISH) # prevent translation of wx dialogs
 	if len(sys.argv) > 1:
 		# not implemented yet
 		mainWindow(None, "Image Viewer", sys.argv[1])
