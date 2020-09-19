@@ -11,3 +11,12 @@ def search_photos (dir):
 
 def get_extension (param):
 	return param.split('.')[-1]
+
+def valid_arg (param):
+	if get_extension (param)!="jpg" or get_extension (param)!="png":
+		return None
+	param=os.path.abspath(param)
+	if os.path.isfile (param):
+		return param
+	else:
+		return None

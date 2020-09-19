@@ -16,8 +16,6 @@ webcam = cv2.VideoCapture(0)
 
 class mainWindow(wx.Frame): 
 	def __init__(self, parent, title, kwg):
-		self.pictures=None
-		self.descriptions=None
 		self.fileName=""
 		self.width, self.height = wx.GetDisplaySize()
 		self.title=title
@@ -33,8 +31,11 @@ class mainWindow(wx.Frame):
 		self.menu = m.Menu(self)
 
 		#varebles
+		self.pictures=None
+		self.descriptions=None
 		self.currentPicture = 0
 		self.totalPictures = 0
+
 		self.photoMaxSize = self.width-20
 		self.img = wx.Image(self.width, self.height)
 		# self.imageCtrl = wx.StaticBitmap(self.panel, wx.ID_ANY, wx.Bitmap(self.img))
@@ -43,7 +44,19 @@ class mainWindow(wx.Frame):
 		self.Show ()
 		self.timer = wx.Timer(self)
 		self.Bind (wx.EVT_TIMER, self.onTimer, self.timer)
-		# self.timer.Start (5000)
+
+	def process_path ():
+		path=os.path.dirname (self.arg)
+		name=os.path.basename (self.arg)
+		self.pictures = functions.search_photos(path)
+		self.totalPictures=self.pictures[0]
+		self.descriptions=None
+		self.descriptions=[None]*self.totalPictures
+		self.currentPicture=0
+		for a in self.pictures:
+			self.currentPicture=self.currentPicture+1
+			if a==name: break
+	self.loadImage (self.pictures[self.currentPicture])
 
 	def onOpen (self, event):
 		dlg=wx.DirDialog (self, "Open folder", "", style=wx.DD_DEFAULT_STYLE | wx.DD_DIR_MUST_EXIST)
@@ -151,11 +164,14 @@ class mainWindow(wx.Frame):
 			unispeech.output ("Error: cannot take picture")
 
 if __name__ == '__main__':
+	workingDir=os.path.abspath(os.getcwd())
 	app = wx.App()
 	localeObj = wx.Locale(wx.LANGUAGE_ENGLISH) # prevent translation of wx dialogs
 	if len(sys.argv) > 1:
 		# not implemented yet
-		mainWindow(None, "Image Viewer", sys.argv[1])
+		path=sys.argv[1]
+		path=functions.valid_arg (path)
+		mainWindow(None, "Image Viewer", path)
 	else:
 		mainWindow(None, "Image Viewer", None)
 	app.MainLoop()
