@@ -1,5 +1,4 @@
 ﻿import base64, urllib.request, urllib.parse, time, json
-import sys
 
 def cloudvis(filename, lang = "en", target = "all", qr = 0, translate = 0):
 	with open(filename, "rb") as f:

@@ -44,8 +44,9 @@ class mainWindow(wx.Frame):
 		self.Show ()
 		self.timer = wx.Timer(self)
 		self.Bind (wx.EVT_TIMER, self.onTimer, self.timer)
+		self.process_path ()
 
-	def process_path ():
+	def process_path (self):
 		path=os.path.dirname (self.arg)
 		name=os.path.basename (self.arg)
 		self.pictures = functions.search_photos(path)
