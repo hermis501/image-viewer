@@ -1,4 +1,5 @@
 pyinstaller
-wxpython
+wxPython==4.0.3
 clipboard
 playsound
+opencv-python

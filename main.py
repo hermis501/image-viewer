@@ -11,6 +11,7 @@ import os
 import clipboard
 import _thread as thread
 import playsound
+import pathlib
 import cv2
 webcam = cv2.VideoCapture(0)
 
@@ -169,7 +170,6 @@ if __name__ == '__main__':
 	app = wx.App()
 	localeObj = wx.Locale(wx.LANGUAGE_ENGLISH) # prevent translation of wx dialogs
 	if len(sys.argv) > 1:
-		# not implemented yet
 		path=sys.argv[1]
 		path=functions.valid_arg (path)
 		mainWindow(None, "Image Viewer", path)
