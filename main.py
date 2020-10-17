@@ -1,5 +1,6 @@
 ﻿# -*- coding: utf-8 -*-
 import universal_speech as unispeech
+from configparser import ConfigParser
 from datetime import datetime
 import cloudvis
 import wx
@@ -46,6 +47,14 @@ class mainWindow(wx.Frame):
 		self.timer = wx.Timer(self)
 		self.Bind (wx.EVT_TIMER, self.onTimer, self.timer)
 		self.process_path ()
+		#configuration checking
+		self.config=ConfigParser()
+		self.config_ini="konfig.ini"
+		self.config.read (self.config_ini)
+		try: self.capture_dir=self.config.get("configuration", "capture_to")
+		except: self.capture_dir=os.path.abspath(os.getcwd()); self.capture_dir=self.capture_dir+"\captures"
+		self.capture_dir=pathlib.Path (self.capture_dir)
+		#configuration checking end
 
 	def process_path (self):
 		if self.arg==None: return
