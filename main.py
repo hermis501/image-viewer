@@ -63,7 +63,8 @@ class mainWindow(wx.Frame):
 		self.pictures = functions.search_photos(path)
 		self.totalPictures=self.pictures[0]
 		self.descriptions=None
-		self.descriptions=[None]*self.totalPictures
+		self.descriptions=[None]*(self.totalPictures+1)
+		self.descriptions[0]=self.totalPictures
 		self.currentPicture=0
 		for a in self.pictures:
 			self.currentPicture=self.currentPicture+1
@@ -80,7 +81,8 @@ class mainWindow(wx.Frame):
 			self.pictures=temppic
 			self.totalPictures=self.pictures[0]
 			self.descriptions=None
-			self.descriptions=[None]*self.totalPictures
+			self.descriptions=[None]*(self.totalPictures+1)
+			self.descriptions[0]=self.totalPictures
 			self.currentPicture=1
 			self.loadImage (self.pictures[self.currentPicture])
 
@@ -131,12 +133,13 @@ class mainWindow(wx.Frame):
 		else:
 			self.currentPicture += 1
 		self.loadImage (self.pictures[self.currentPicture])
-		print (str(self.totalPictures)+"/"+str(self.currentPicture))
 
 	def onDescription (self, event):
 		thread.start_new_thread(self.getDescription,())
 
 	def getDescription (self):
+		print (self.descriptions)
+		print (self.pictures)
 		if self.menu.slideshowMenu.IsChecked (): unispeech.output ("You must turn off slideshow feature in order to get descriptions. To do it, press control + s"); return
 		if self.pictures==None: return
 		# nekišti api užklausos antrąkart, jei descriptionas pasirinktai nuotraukai jau gautas
