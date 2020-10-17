@@ -48,6 +48,7 @@ class mainWindow(wx.Frame):
 		self.process_path ()
 
 	def process_path (self):
+		if self.arg==None: return
 		path=os.path.dirname (self.arg)
 		name=os.path.basename (self.arg)
 		self.pictures = functions.search_photos(path)
@@ -58,7 +59,7 @@ class mainWindow(wx.Frame):
 		for a in self.pictures:
 			self.currentPicture=self.currentPicture+1
 			if a==name: break
-	self.loadImage (self.pictures[self.currentPicture])
+		self.loadImage (self.pictures[self.currentPicture])
 
 	def onOpen (self, event):
 		dlg=wx.DirDialog (self, "Open folder", "", style=wx.DD_DEFAULT_STYLE | wx.DD_DIR_MUST_EXIST)
