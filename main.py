@@ -14,7 +14,9 @@ import _thread as thread
 import playsound
 import pathlib
 import cv2
+import ffmpeg
 webcam = cv2.VideoCapture(0)
+print (webcam.isOpened ())
 
 class mainWindow(wx.Frame): 
 	def __init__(self, parent, title, kwg):
@@ -138,13 +140,11 @@ class mainWindow(wx.Frame):
 		thread.start_new_thread(self.getDescription,())
 
 	def getDescription (self):
-		print (self.descriptions)
-		print (self.pictures)
 		if self.menu.slideshowMenu.IsChecked (): unispeech.output ("You must turn off slideshow feature in order to get descriptions. To do it, press control + s"); return
 		if self.pictures==None: return
 		# nekišti api užklausos antrąkart, jei descriptionas pasirinktai nuotraukai jau gautas
 		if self.descriptions[self.currentPicture]!=None: unispeech.output (self.descriptions[self.currentPicture].replace ("\n", ", ")); return
-		unispeech.output ("getting description. Please wait...")
+		unispeech.output ("getting description.")
 		param=self.pictures[self.currentPicture]
 		cloud=cloudvis.cloudvis (param)
 		self.descriptions[self.currentPicture]=cloud
@@ -163,6 +163,7 @@ class mainWindow(wx.Frame):
 		else: self.timer.Stop (); unispeech.output ("SlideShow, off")
 
 	def onCapture (self, event):
+		if not webcam.isOpened (): unispeech.output ("Error: cannot take picture."); return
 		# not fully implemented; might need an option where to save file and
 		# ability to show after saving.
 		try:
@@ -172,7 +173,8 @@ class mainWindow(wx.Frame):
 			frame = cv2.cvtColor(frame,cv2.COLOR_BGR2RGB)
 			now = datetime.now()
 			dt_string = now.strftime("%Y-%m-%d-%H-%M-%S")
-			self.fileName="cap"+dt_string+".jpg"
+			# self.fileName=os.path.join (self.capture_dir, "cap"+dt_string+".jpg")
+			self.fileName="cap.jpg"
 			cv2.imwrite(filename=self.filename, img=frame)
 			playsound.playsound ('sounds/cap.wav')
 		except:

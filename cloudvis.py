@@ -12,7 +12,7 @@ def cloudvis(filename, lang = "en", target = "all", qr = 0, translate = 0):
 			"translate": translate
 		}).encode()
 	)
-	except: return "Error: Check your internet connection"
+	except: return ""
 	j1 = json.loads(r1.read())
 	r1.close()
 	del body
