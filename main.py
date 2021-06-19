@@ -11,12 +11,9 @@ import sys
 import os
 import clipboard
 import _thread as thread
+from threading import Thread
 import playsound
 import pathlib
-import cv2
-import ffmpeg
-webcam = cv2.VideoCapture(0)
-print (webcam.isOpened ())
 
 class mainWindow(wx.Frame): 
 	def __init__(self, parent, title, kwg):
@@ -109,7 +106,6 @@ class mainWindow(wx.Frame):
 		wx.MessageDialog(self, "Image viewer with accessibility features\nCopyright (C) 2020 by Hermis Kasperavičius\nThis program uses cloudVision API from http://visionbot.ru/apiv2 and Universal Speech API from http://github.com/qtnc/UniversalSpeech", "Accessible Image Viewer", wx.OK).ShowModal()
 
 	def onClose (self, event):
-		webcam.release()
 		self.Destroy ()
 
 	def show_status (self, text): self.sb.SetStatusText (text)
@@ -137,7 +133,9 @@ class mainWindow(wx.Frame):
 		self.loadImage (self.pictures[self.currentPicture])
 
 	def onDescription (self, event):
-		thread.start_new_thread(self.getDescription,())
+		# thread.start_new_thread(self.getDescription,())
+		t = Thread(self.getDescription())
+		t.start()
 
 	def getDescription (self):
 		if self.menu.slideshowMenu.IsChecked (): unispeech.output ("You must turn off slideshow feature in order to get descriptions. To do it, press control + s"); return
@@ -161,24 +159,6 @@ class mainWindow(wx.Frame):
 	def onSlideshow (self, event):
 		if self.menu.slideshowMenu.IsChecked (): self.timer.Start (3000); unispeech.output ("SlideShow, on")
 		else: self.timer.Stop (); unispeech.output ("SlideShow, off")
-
-	def onCapture (self, event):
-		if not webcam.isOpened (): unispeech.output ("Error: cannot take picture."); return
-		# not fully implemented; might need an option where to save file and
-		# ability to show after saving.
-		try:
-			check, frame = webcam.read()
-			#and the second time; OpenCV don't allow us to take good picture first time
-			check, frame = webcam.read()
-			frame = cv2.cvtColor(frame,cv2.COLOR_BGR2RGB)
-			now = datetime.now()
-			dt_string = now.strftime("%Y-%m-%d-%H-%M-%S")
-			# self.fileName=os.path.join (self.capture_dir, "cap"+dt_string+".jpg")
-			self.fileName="cap.jpg"
-			cv2.imwrite(filename=self.filename, img=frame)
-			playsound.playsound ('sounds/cap.wav')
-		except:
-			unispeech.output ("Error: cannot take picture")
 
 if __name__ == '__main__':
 	workingDir=os.path.abspath(os.getcwd())
