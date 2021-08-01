@@ -24,9 +24,6 @@ class mainWindow(wx.Frame):
 		self.arg = kwg
 		self.mainFrame=wx.Frame.__init__(self, parent=self.parent, id=wx.ID_ANY, title=self.title, pos = wx.DefaultPosition, size=(self.width, self.height), style=wx.DEFAULT_FRAME_STYLE | wx.TAB_TRAVERSAL)
 		self.panel=wx.Panel(self, -1)
-		self.sb=self.CreateStatusBar (1)
-		self.sb.Show()
-		self.show_status ("Waiting for images")
 		self.Bind (wx.EVT_CLOSE, self.onClose)
 		self.panel.Bind (wx.EVT_HELP, self.onAbout)
 		self.menu = m.Menu(self)
@@ -100,7 +97,7 @@ class mainWindow(wx.Frame):
 		self.imageCtrl.SetSize (NewW, NewH)
 		self.imageCtrl.SetBitmap(wx.Bitmap(img))
 		self.imageCtrl.Refresh ()
-		self.show_status (imageName+" "+str(self.currentPicture)+" / "+str(self.totalPictures))
+		# self.show_status (imageName+" "+str(self.currentPicture)+" / "+str(self.totalPictures))
 
 	def onAbout (self, event):
 		wx.MessageDialog(self, "Image viewer with accessibility features\nCopyright (C) 2020 by Hermis Kasperavičius\nThis program uses cloudVision API from http://visionbot.ru/apiv2 and Universal Speech API from http://github.com/qtnc/UniversalSpeech", "Accessible Image Viewer", wx.OK).ShowModal()
@@ -108,7 +105,7 @@ class mainWindow(wx.Frame):
 	def onClose (self, event):
 		self.Destroy ()
 
-	def show_status (self, text): self.sb.SetStatusText (text)
+	def show_status (self, text): self.sb.SetStatusText (text, 1)
 
 	def onTimer (self, event): self.nextPicture ()
 
@@ -131,11 +128,12 @@ class mainWindow(wx.Frame):
 		else:
 			self.currentPicture += 1
 		self.loadImage (self.pictures[self.currentPicture])
+		unispeech.output (self.pictures[self.currentPicture])
 
 	def onDescription (self, event):
-		# thread.start_new_thread(self.getDescription,())
-		t = Thread(self.getDescription())
-		t.start()
+		thread.start_new_thread(self.getDescription,())
+		# t = Thread(self.getDescription())
+		# t.start()
 
 	def getDescription (self):
 		if self.menu.slideshowMenu.IsChecked (): unispeech.output ("You must turn off slideshow feature in order to get descriptions. To do it, press control + s"); return

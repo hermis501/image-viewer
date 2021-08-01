@@ -10,7 +10,7 @@ def search_photos (dir):
 	return aarray
 
 def get_extension (param):
-	return param.split('.')[-1]
+	return param.split('.')[-1].lower()
 
 def valid_arg (param):
 	if get_extension (param)!="jpg" or get_extension (param)!="png":
