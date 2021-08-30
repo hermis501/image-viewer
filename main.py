@@ -9,6 +9,7 @@ import menu as m
 import functions
 import sys
 import os
+import os.path
 import clipboard
 import _thread as thread
 from threading import Thread
@@ -51,6 +52,11 @@ class mainWindow(wx.Frame):
 		except: self.capture_dir=os.path.abspath(os.getcwd()); self.capture_dir=self.capture_dir+"\captures"
 		self.capture_dir=pathlib.Path (self.capture_dir)
 		#configuration checking end
+		self.status=""
+		self.autoSpeak=False
+
+	def onSayStatus (self):
+		unispeech.output (self.status)
 
 	def process_path (self):
 		if self.arg==None: return
@@ -67,7 +73,7 @@ class mainWindow(wx.Frame):
 			if a==name: break
 		self.loadImage (self.pictures[self.currentPicture])
 
-	def onOpen (self, event):
+	def onOpenFolder (self, event):
 		dlg=wx.DirDialog (self, "Open folder", "", style=wx.DD_DEFAULT_STYLE | wx.DD_DIR_MUST_EXIST)
 		if dlg.ShowModal ()==wx.ID_OK:
 			path=dlg.GetPath ()
@@ -97,15 +103,13 @@ class mainWindow(wx.Frame):
 		self.imageCtrl.SetSize (NewW, NewH)
 		self.imageCtrl.SetBitmap(wx.Bitmap(img))
 		self.imageCtrl.Refresh ()
-		# self.show_status (imageName+" "+str(self.currentPicture)+" / "+str(self.totalPictures))
+		self.status= imageName+" "+str(self.currentPicture)+" / "+str(self.totalPictures)
 
 	def onAbout (self, event):
 		wx.MessageDialog(self, "Image viewer with accessibility features\nCopyright (C) 2020 by Hermis Kasperavičius\nThis program uses cloudVision API from http://visionbot.ru/apiv2 and Universal Speech API from http://github.com/qtnc/UniversalSpeech", "Accessible Image Viewer", wx.OK).ShowModal()
 
 	def onClose (self, event):
 		self.Destroy ()
-
-	def show_status (self, text): self.sb.SetStatusText (text, 1)
 
 	def onTimer (self, event): self.nextPicture ()
 
@@ -128,7 +132,7 @@ class mainWindow(wx.Frame):
 		else:
 			self.currentPicture += 1
 		self.loadImage (self.pictures[self.currentPicture])
-		unispeech.output (self.pictures[self.currentPicture])
+		if self.autoSpeak: unispeech.output (self.pictures[self.currentPicture])
 
 	def onDescription (self, event):
 		thread.start_new_thread(self.getDescription,())
@@ -155,8 +159,12 @@ class mainWindow(wx.Frame):
 		unispeech.output ("Copied")
 
 	def onSlideshow (self, event):
-		if self.menu.slideshowMenu.IsChecked (): self.timer.Start (3000); unispeech.output ("SlideShow, on")
-		else: self.timer.Stop (); unispeech.output ("SlideShow, off")
+		if self.menu.slideshowMenu.IsChecked (): self.timer.Start (3000); unispeech.output ("SlideShow, on"); self.autoSpeak=False
+		else: self.timer.Stop (); unispeech.output ("SlideShow, off"); self.autoSpeak=True
+
+	def onRename (self, event):
+		unispeech.output ("Needs implementing")
+		return
 
 if __name__ == '__main__':
 	workingDir=os.path.abspath(os.getcwd())

@@ -4,7 +4,7 @@ class Menu():
 		menu_file = wx.Menu()
 		self.openMenu = menu_file.Append(-1, "Open folder with images\tCTRL+O", "Open folder with images")
 		self.quitMenu = menu_file.Append(-1, "Quit the program", "Quit the program")
-		parent.Bind (wx.EVT_MENU, parent.onOpen, self.openMenu)
+		parent.Bind (wx.EVT_MENU, parent.onOpenFolder, self.openMenu)
 		parent.Bind (wx.EVT_MENU, parent.onClose, self.quitMenu)
 
 		menu_commands = wx.Menu()
@@ -16,6 +16,8 @@ class Menu():
 		parent.Bind (wx.EVT_MENU, parent.onDescription, self.descriptionMenu)
 		self.descriptionCopyMenu = menu_commands.Append(-1, "Copy image description\tF5", "Copy image description")
 		parent.Bind (wx.EVT_MENU, parent.onDescriptionCopy, self.descriptionCopyMenu)
+		self.renameMenu = menu_commands.Append(-1, "Rename image\tF2", "Rename image")
+		parent.Bind (wx.EVT_MENU, parent.onRename, self.renameMenu)
 
 		menu_options = wx.Menu()
 		self.slideshowMenu = menu_options.Append(-1, "Slide show\tCTRL+S", "Slide show", kind=wx.ITEM_CHECK)

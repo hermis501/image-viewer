@@ -1,3 +1,4 @@
+from PIL import Image
 import os
 def search_photos (dir):
 	aarray=[]
@@ -20,3 +21,14 @@ def valid_arg (param):
 		return param
 	else:
 		return None
+
+def get_date_taken(path):
+	date=""
+	try:
+		# get from file tag
+		date=Image.open(path).getexif()[306]
+	except:
+		# if exif is empty, get from file properties
+		timestamp=os.path.getctime(path)
+		date = datetime.fromtimestamp(timestamp).strftime ('%Y:%m:%d %H:%M:%S')
+	return date

@@ -2,4 +2,4 @@ pyinstaller
 wxPython
 clipboard
 playsound
-opencv-python
+pillow
