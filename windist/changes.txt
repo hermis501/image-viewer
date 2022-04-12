@@ -1,0 +1,22 @@
+ChangeLog
+v1.0.5.1:
+Removed checkbox in "options" menu item
+
+v1.0.5:
+Fixed: previously after renaming image, program was unable to load it due to incorrect call of the file
+
+v1.0.4:
+Fixed bug with associations
+
+v1.0.3:
+Fixed small bug;
+Again fixed autoupdater, now should work as expected
+
+v1.0.2:
+fixed bug in autoupdater
+
+V1.0.1:
+fixed little bugs in description window
+
+V1.0:
+initial release

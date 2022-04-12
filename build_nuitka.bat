@@ -1,0 +1,1 @@
+nuitka --standalone --python-flag=no_site --windows-disable-console --output-dir=D:\tempbuild --remove-output main.pyw>error.txt

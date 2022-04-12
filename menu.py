@@ -18,11 +18,17 @@ class Menu():
 		parent.Bind (wx.EVT_MENU, parent.onDescriptionCopy, self.descriptionCopyMenu)
 		self.renameMenu = menu_commands.Append(-1, "Rename image\tF2", "Rename image")
 		parent.Bind (wx.EVT_MENU, parent.onRename, self.renameMenu)
+		self.longDescriptionMenu = menu_commands.Append(-1, "Write long description\tCTRL+F2", "Write long description to a image file")
+		parent.Bind (wx.EVT_MENU, parent.onWriteLongDescription, self.longDescriptionMenu)
+		self.fileDescriptionMenu = menu_commands.Append(-1, "Say file description\tF3", "Speak actual Image name")
+		parent.Bind (wx.EVT_MENU, parent.onFileDescription, self.fileDescriptionMenu)
 
 		menu_options = wx.Menu()
 		self.slideshowMenu = menu_options.Append(-1, "Slide show\tCTRL+S", "Slide show", kind=wx.ITEM_CHECK)
 		self.slideshowMenu.Check (False)
 		parent.Bind (wx.EVT_MENU, parent.onSlideshow, self.slideshowMenu)
+		self.optionsMenu = menu_options.Append(-1, "Options...", "Program options")
+		parent.Bind (wx.EVT_MENU, parent.onOptions, self.optionsMenu)
 
 		menu_help = wx.Menu()
 		self.aboutMenu = menu_help.Append(-1, "About", "About the program")

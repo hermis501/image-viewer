@@ -1,5 +1,6 @@
 ﻿import base64, urllib.request, urllib.parse, time, json
-
+import ssl
+ssl._create_default_https_context = ssl._create_unverified_context
 def cloudvis(filename, lang = "en", target = "all", qr = 0, translate = 0):
 	with open(filename, "rb") as f:
 		body = base64.b64encode(f.read())

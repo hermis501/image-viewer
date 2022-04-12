@@ -25,8 +25,8 @@ def say (msg, interrupt=True): return __uspeech.speechSay(msg, interrupt)
 def sayA(msg, interrupt=True): return __uspeech.speechSayA(msg, interrupt)
 def braille (msg): return __uspeech.brailleDisplay(msg)
 
-def output (msg):
-	say(msg); braille(msg)
+def output (msg, interrupt=True):
+	say(msg, interrupt); braille(msg)
 
 def stop (): return __uspeech.speechStop()
 
