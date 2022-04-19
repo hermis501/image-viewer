@@ -88,6 +88,7 @@ def setImageDescription (path, description):
 	with open(path, "rb") as f: image = Image(f)
 	b = description.encode('utf-8', errors='ignore')
 	b=str (b)
+	b = b.replace('\n', ' ').replace('\r', '')
 	image.image_description=b
 	with open (path, 'wb') as f: f.write(image.get_file())
 
