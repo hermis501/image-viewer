@@ -1,5 +1,8 @@
 #NoTrayIcon
 #Include <misc.au3>
+if _Singleton (@scriptname, 1)=0 then
+exit
+endif
 if fileexists (@tempdir&"\image_viewer-setup.exe")=0 then exit
 do
 sleep (200)

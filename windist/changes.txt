@@ -1,4 +1,7 @@
 ChangeLog
+v1.0.5.2:
+Fixed a bug in image description: now new line symbol is treated correctly. Because of this bug, image file structure could be potentially damaged.
+
 v1.0.5.1:
 Removed checkbox in "options" menu item
 
