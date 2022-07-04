@@ -227,7 +227,7 @@ if __name__ == '__main__':
 	elif __file__:
 		app_path = os.path.dirname(os.path.abspath(__file__))
 	program_name=os.path.basename(sys.executable)
-	program_version="1.0.5.1"
+	program_version="1.0.5.2"
 	program_nameAndVersion="Image Viewer, Version %s" %(program_version)
 	program_copyright="Copyright © 2020-2022 by Hermis Kasperavičius"
 	program_description="Image Viewer for the blind.\nThis program uses Cloud Vision API from http://visionbot.ru/"
