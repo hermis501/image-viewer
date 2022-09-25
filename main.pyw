@@ -20,7 +20,6 @@ import _thread as thread
 from threading import Thread
 import playsound
 import pathlib
-from pubsub import pub
 
 class mainWindow(wx.Frame): 
 	def __init__(self, parent, title, kwg):
@@ -59,7 +58,6 @@ class mainWindow(wx.Frame):
 		self.timer = wx.Timer(self)
 		self.Bind (wx.EVT_TIMER, self.onTimer, self.timer)
 		self.status=""
-		pub.subscribe(self.onRenameMessage, "aaa")
 		self.process_path ()
 
 	def onSayStatus (self, event):
@@ -125,7 +123,6 @@ class mainWindow(wx.Frame):
 		if not self.config.has_section("configuration"): self.config.add_section ("configuration")
 		self.config.set("configuration", "autospeak", str(self.autoSpeak))
 		with open(self.config_ini, 'w') as config_file: self.config.write(config_file)
-		pub.unsubscribe(self.onRenameMessage, "aaa")
 		self.Destroy ()
 
 	def onTimer (self, event): self.nextPicture ()
@@ -214,20 +211,23 @@ class mainWindow(wx.Frame):
 	def onOptions (self, event):
 		optionsFrame.OptionsFrame (self).Show ()
 
-	def onRenameMessage (self, msg=0):
+	def runProcess (name, args):
+		subprocess.Popen (name, args, startupinfo=startupinfo)
+
+	def onRenameMessage (self):
 		if os.path.isfile (self.receiveText): self.pictures[self.currentPicture]=self.receiveText
 		self.receiveText=""
 		self.loadImage (self.pictures[self.currentPicture])
 
 if __name__ == '__main__':
-	# f=open("errors.log","a")
+	# f=open("errors.log","w")
 	# sys.stderr=f
 	if getattr(sys, 'frozen', False):
 		app_path = os.path.dirname(sys.executable)
 	elif __file__:
 		app_path = os.path.dirname(os.path.abspath(__file__))
 	program_name=os.path.basename(sys.executable)
-	program_version="1.0.5.2"
+	program_version="1.0.5.3"
 	program_nameAndVersion="Image Viewer, Version %s" %(program_version)
 	program_copyright="Copyright © 2020-2022 by Hermis Kasperavičius"
 	program_description="Image Viewer for the blind.\nThis program uses Cloud Vision API from http://visionbot.ru/"

@@ -1,7 +1,6 @@
 import wx
 import functions
 import os
-from pubsub import pub
 class RenameGui(wx.Frame):
 	def __init__(self, parent, arg):
 		self.arg=arg
@@ -43,6 +42,7 @@ class RenameGui(wx.Frame):
 
 	def OnClose(self, event=None):
 		self.parent.Show ()
+		self.parent.onRenameMessage ()
 		self.Destroy()
 
 	def renameFile (self, old, newName):
@@ -51,6 +51,4 @@ class RenameGui(wx.Frame):
 		ext=functions.get_extension (old)
 		new=dir+"\\"+newName+"."+ext
 		os.rename (old, new)
-		print ("file is renamed, now we are inside of the renamegui")
 		self.parent.receiveText=str(new)
-		pub.sendMessage("aaa", msg=0)
