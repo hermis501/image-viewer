@@ -31,7 +31,7 @@ class updater (wx.Frame):
 		thread.start_new_thread(self.download,())
 
 	def download (self):
-		uplink="http://hermioradijas.eu/software/image_viewer-setup.exe"
+		uplink="http://hermisk.eu/software/image_viewer-setup.exe"
 		try: req=urllib.request.urlopen(uplink)
 		except: return
 		if 'Content-Length' not in req.headers: return
@@ -66,11 +66,11 @@ class updater (wx.Frame):
 		subprocess.Popen ('imageviewerup.exe')
 		self.Destroy ()
 
-	def onClose (self, event=None): self.updating=False
+	def onClose (self, event=None): self.updating=False; self.Destroy ()
 
 #function outside of the class
 def get_versionSTR ():
-	link="http://hermioradijas.eu/software/updates/imageviewer/upver.dat"
+	link="http://hermisk.eu/software/updates/imageviewer/upver.dat"
 	content=urllib.request.urlopen(link, timeout=5).read ().decode ()
 	if "<" in content: content=""
 	return content

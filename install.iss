@@ -1,6 +1,6 @@
 #define MyAppName "Image Viewer"
 #define MyAppVersion "1.0.5.3"
-#define MyAppPublisher "Hermis Kasperavièius"
+#define MyAppPublisher "Hermis KasperaviÄius"
 #define MyAppURL "http://hermisk.eu"
 #define MyAppExeName "ImageViewer.exe"
 
