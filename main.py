@@ -25,7 +25,7 @@ class mainWindow(wx.Frame):
 	def __init__(self, parent, title, kwg):
 		#configuration checking
 		self.config=ConfigParser()
-		self.config_ini=os.path.join (app_path, "config.ini")
+		self.config_ini=os.path.join (settings_path, "config.ini")
 		self.config.read (self.config_ini)
 		try: self.autoSpeak=self.config.getboolean("configuration", "autospeak")
 		except: self.autoSpeak=False
@@ -226,8 +226,10 @@ if __name__ == '__main__':
 		app_path = os.path.dirname(sys.executable)
 	elif __file__:
 		app_path = os.path.dirname(os.path.abspath(__file__))
+	settings_path=functions.get_config_path()
+	if not os.path.isdir (settings_path): os.mkdir (settings_path)
 	program_name=os.path.basename(sys.executable)
-	program_version="1.0.5.3"
+	program_version="1.0.6"
 	program_nameAndVersion="Image Viewer, Version %s" %(program_version)
 	program_copyright="Copyright © 2020-2022 by Hermis Kasperavičius"
 	program_description="Image Viewer for the blind.\nThis program uses Cloud Vision API from http://visionbot.ru/"

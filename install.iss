@@ -1,5 +1,5 @@
-#define MyAppName "Image Viewer"
-#define MyAppVersion "1.0.5.3"
+﻿#define MyAppName "Image Viewer"
+#define MyAppVersion "1.0.6"
 #define MyAppPublisher "Hermis Kasperavičius"
 #define MyAppURL "http://hermisk.eu"
 #define MyAppExeName "ImageViewer.exe"
@@ -22,8 +22,8 @@ SolidCompression=yes
 DisableProgramGroupPage=no
 AllowNoIcons=yes
 ChangesAssociations=yes
-InfoBeforeFile="dist\imageViewer\readme.txt"
-InfoAfterFile="dist\imageViewer\changes.txt"
+InfoBeforeFile="dist\imageViewer\changes.txt"
+InfoAfterFile="dist\imageViewer\ReadMe.txt"
 
 [Languages]
 Name: "english"; MessagesFile: "compiler:Default.isl"
@@ -45,7 +45,6 @@ Name: "{group}\Readme"; Filename: {app}\ReadMe.txt
 Filename: "{app}\{#MyAppExeName}"; Description: "{cm:LaunchProgram,{#StringChange(MyAppName, "&", "&&")}}"; Flags: nowait postinstall skipifsilent
 
 [UninstallDelete]
-Type: files; Name: "{app}\config.ini"
 Type: dirifempty; Name: "{app}"
 
 [Registry]
@@ -53,3 +52,15 @@ Root: HKA; Subkey: "Software\Classes\.jpg"; ValueType: string; ValueName: ""; Va
 Root: HKA; Subkey: "Software\Classes\.png"; ValueType: string; ValueName: ""; ValueData: "Image Viewer"; Flags: uninsdeletevalue; Tasks: association
 Root: HKA; Subkey: "Software\Classes\Image Viewer"; ValueType: string; ValueName: ""; ValueData: "Image file"; Flags: uninsdeletekey; Tasks: association
 Root: HKA; Subkey: "Software\Classes\Image Viewer\shell\open\command"; ValueType: string; ValueName: ""; ValueData: """{app}\imageViewer.exe"" ""%1"""; Tasks: association
+
+[Code]
+procedure CurUninstallStepChanged(CurUninstallStep: TUninstallStep);
+begin
+  if CurUninstallStep = usPostUninstall then
+  begin
+    if MsgBox('Do You Want To Delete settings?', mbConfirmation, MB_YESNO or MB_DEFBUTTON2) = IDYES then
+    begin
+        DelTree(ExpandConstant('{userappdata}\imageviewer'), True, True, True);
+    end;
+  end;
+end;

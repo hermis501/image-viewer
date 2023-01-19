@@ -1,2 +1,2 @@
-pyinstaller --onedir -w -n "ImageViewer" ./main.pyw
+pyinstaller -w -n "ImageViewer" ./main.py
 pause

@@ -1,4 +1,8 @@
 ChangeLog
+V1.0.6:
+It's now possible to close the program. This was awaited so long, that I even don't know should it be documented as a bug fix or a new feature;
+Settings location changed from program directory to %appdata%\imageviewer.
+
 v1.0.5.3:
 Fixed: all photos are renamed correctly;
 some code improvements.
@@ -13,7 +17,7 @@ v1.0.5:
 Fixed: previously after renaming image, program was unable to load it due to incorrect call of the file
 
 v1.0.4:
-Fixed bug with associations
+Fixed bug with file associations
 
 v1.0.3:
 Fixed small bug;

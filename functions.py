@@ -64,8 +64,8 @@ def get_date_from_file(path):
 		timestamp=os.path.getctime(path)
 		date = datetime.fromtimestamp(timestamp).strftime ('%Y:%m:%d %H:%M:%S')
 		date=str(date)
-		date=date.replace (":", "")
-		date=date.replace (" ", "-")
+	date=date.replace (":", "")
+	date=date.replace (" ", "-")
 	return date
 
 def stringToFileName (param):
@@ -98,3 +98,14 @@ def delImageDescription (path):
 		try: image.delete ('image_description')
 		except: pass
 	with open (path, 'wb') as f: f.write(image.get_file())
+
+def get_config_path():
+	"""Return user config path.
+	Windows = %AppData% + app_name
+	Linux   = ~/.config + app_name
+	"""
+	if os.name == 'nt':
+		path = os.getenv('APPDATA')
+	else:
+		path = os.path.join(os.path.expanduser('~'), '.config')
+	return os.path.join(path, "imageviewer".lower())

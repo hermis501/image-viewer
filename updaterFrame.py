@@ -45,7 +45,7 @@ class updater (wx.Frame):
 		for i in range (1, loop-1):
 			if self.updating==False: 
 				self.Destroy ()
-				try: outFile.close (); os.remove (os.path.join (tempDir, "youtube_audio_player-setup.exe")); self.Destroy (); return
+				try: outFile.close (); os.remove (os.path.join (tempDir, "image_viewer-setup.exe")); self.Destroy (); return
 				except: self.Destroy (); return
 			temp=req.read (1024)
 			if temp==None: wx.MessageBox (self, "Error", "Error downloading update"); self.Destroy (); return
